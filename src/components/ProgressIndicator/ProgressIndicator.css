@@ -1,0 +1,46 @@
+.progress-indicator {
+  position: absolute;
+  right: 2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.progress-indicator__dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  margin: 5px 0;
+  transition: background 0.35s ease, transform 0.35s ease, box-shadow 0.35s ease;
+  position: relative;
+}
+
+.progress-indicator__dot.is-active {
+  background: var(--color-accent);
+  transform: scale(1.6);
+  box-shadow: 0 0 12px rgba(232, 102, 42, 0.6);
+}
+
+/* Connecting line between dots */
+.progress-indicator::before {
+  content: '';
+  position: absolute;
+  top: 5px;
+  bottom: 5px;
+  left: 50%;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateX(-50%);
+  z-index: -1;
+}
+
+@media (max-width: 768px) {
+  .progress-indicator {
+    right: 1rem;
+  }
+}

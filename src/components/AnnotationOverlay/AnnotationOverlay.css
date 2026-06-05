@@ -1,0 +1,104 @@
+.annotation {
+  position: absolute;
+  z-index: 10;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+/* Restore pointer events only when active */
+.annotation[aria-hidden="false"] {
+  pointer-events: auto;
+}
+
+/* ── Marker ── */
+.annotation__marker {
+  position: relative;
+  width: 52px;
+  height: 52px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  outline: none;
+  color: var(--color-accent);
+  transform-origin: center center;
+}
+
+.annotation__marker-plus {
+  font-size: 22px;
+  font-weight: 300;
+  line-height: 1;
+  position: relative;
+  z-index: 2;
+  transition: transform 0.3s ease;
+}
+
+.annotation__marker:hover .annotation__marker-plus {
+  transform: rotate(45deg);
+}
+
+/* Rotating diamond border */
+.annotation__marker-diamond {
+  position: absolute;
+  inset: 4px;
+  border: 1.5px solid var(--color-accent);
+  transform: rotate(45deg);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.annotation__marker:hover .annotation__marker-diamond {
+  background: rgba(232, 102, 42, 0.12);
+  box-shadow: 0 0 20px rgba(232, 102, 42, 0.4);
+}
+
+/* Expanding pulse ring */
+.annotation__marker-ring {
+  position: absolute;
+  inset: -6px;
+  border: 1px solid rgba(232, 102, 42, 0.35);
+  border-radius: 50%;
+  animation: ring-pulse 2.4s ease-out infinite;
+  pointer-events: none;
+}
+
+@keyframes ring-pulse {
+  0%   { transform: scale(0.85); opacity: 0.6; }
+  60%  { transform: scale(1.3);  opacity: 0;   }
+  100% { transform: scale(1.3);  opacity: 0;   }
+}
+
+/* ── Text ── */
+.annotation__text {
+  text-align: center;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.7);
+  white-space: nowrap;
+}
+
+.annotation__subtitle {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.65);
+  margin: 0 0 0.5rem 0;
+}
+
+.annotation__title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  font-weight: 300;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin: 0;
+  color: var(--color-text);
+  /* Subtle accent underline */
+  border-bottom: 1px solid rgba(232, 102, 42, 0.4);
+  padding-bottom: 0.4rem;
+}
