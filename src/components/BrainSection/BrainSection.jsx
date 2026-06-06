@@ -1,8 +1,8 @@
 import React, { useRef } from "react";
-import "./AiInfotainment.css";
+import "./BrainSection.css";
 
-export default function AiInfotainment() {
-  const videoRef = useRef<HTMLVideoElement>(null);
+export default function BrainSection() {
+  const videoRef = useRef(null);
 
   // const handleVideoError = () => {
   //   // Falls back gracefully if video asset has path issues

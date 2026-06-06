@@ -26,7 +26,7 @@ import "./index.css";
 import { useAmbientSynth } from "./hooks/useAmbientSynth";
 
 
-export default function CatSlider() {
+export default function PowerSlider() {
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
   const [isScrolling, setIsScrolling] = useState<boolean>(false);
@@ -124,6 +124,29 @@ export default function CatSlider() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [activeIndex, drawerOpen, isScrolling]);
 
+  // Scroll wheel navigation (disabled per user request)
+  // useEffect(() => {
+  //   const handleWheel = (e: WheelEvent) => {
+  //     if (drawerOpen || isScrolling) return;
+  //
+  //     const now = Date.now();
+  //     if (now - lastWheelTime.current < 1200) return; // Debounce wheel events matches transition time
+  //
+  //     if (Math.abs(e.deltaY) > 30 || Math.abs(e.deltaX) > 30) {
+  //       lastWheelTime.current = now;
+  //       if (e.deltaY > 0 || e.deltaX > 0) {
+  //         const nextIdx = (activeIndex + 1) % SLIDES.length;
+  //         handleSlideChange(nextIdx);
+  //       } else {
+  //         const prevIdx = (activeIndex - 1 + SLIDES.length) % SLIDES.length;
+  //         handleSlideChange(prevIdx);
+  //       }
+  //     }
+  //   };
+  //
+  //   window.addEventListener("wheel", handleWheel, { passive: true });
+  //   return () => window.removeEventListener("wheel", handleWheel);
+  // }, [activeIndex, drawerOpen, isScrolling]);
 
   // Mouse/Touch Drag Interactions
   const minSwipeDistance = 50;

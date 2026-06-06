@@ -66,13 +66,8 @@ export const BackgroundVideo: React.FC<BackgroundVideoProps> = ({ videoUrl }) =>
     }
 
     // No real change
-    if (videoUrl === prevUrlRef.current) return;
+    if (videoUrl === prevUrlRef.current || isWiping.current) return;
     prevUrlRef.current = videoUrl;
-
-    // If a wipe is already happening, kill it to prevent overlapping animation glitches
-    if (isWiping.current) {
-      gsap.killTweensOf([videoA, videoB, wipeEdge]);
-    }
     isWiping.current = true;
 
     const currentFront = frontLayerRef.current;
@@ -143,6 +138,43 @@ export const BackgroundVideo: React.FC<BackgroundVideoProps> = ({ videoUrl }) =>
   }, [videoUrl]);
 
   // ─────────────────────────────────────────────────────────────
+  // Handle smooth fade to black on video loop replay
+  // ─────────────────────────────────────────────────────────────
+  const handleVideoEnded = (e: React.SyntheticEvent<HTMLVideoElement>) => {
+    const video = e.target as HTMLVideoElement;
+    
+    // Prevent concurrent trigger loops
+    if (video.dataset.isReplaying === "true") return;
+    video.dataset.isReplaying = "true";
+
+    // Fade to black smoothly
+    gsap.to(video, {
+      opacity: 0,
+      duration: 0.6,
+      ease: "power2.inOut",
+      onComplete: () => {
+        // Reset playback position
+        video.currentTime = 0;
+        video.play().then(() => {
+          // Fade back in seamlessly
+          gsap.to(video, {
+            opacity: 1,
+            duration: 0.8,
+            ease: "power2.inOut",
+            onComplete: () => {
+              video.dataset.isReplaying = "false";
+            }
+          });
+        }).catch(() => {
+          video.dataset.isReplaying = "false";
+          // Fallback if play fails
+          gsap.to(video, { opacity: 1, duration: 0.5 });
+        });
+      }
+    });
+  };
+
+  // ─────────────────────────────────────────────────────────────
   // Shared CSS for both video layers
   // ─────────────────────────────────────────────────────────────
   const sharedVideoStyle: React.CSSProperties = {
@@ -167,9 +199,8 @@ export const BackgroundVideo: React.FC<BackgroundVideoProps> = ({ videoUrl }) =>
         ref={videoARef}
         style={sharedVideoStyle}
         muted
-        autoPlay
-        loop
         playsInline
+        onEnded={handleVideoEnded}
         id="bg-video-layer-a"
       />
 
@@ -178,9 +209,8 @@ export const BackgroundVideo: React.FC<BackgroundVideoProps> = ({ videoUrl }) =>
         ref={videoBRef}
         style={sharedVideoStyle}
         muted
-        autoPlay
-        loop
         playsInline
+        onEnded={handleVideoEnded}
         id="bg-video-layer-b"
       />
 
