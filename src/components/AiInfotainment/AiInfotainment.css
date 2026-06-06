@@ -1,0 +1,306 @@
+/* ════════════════════════════════════════════
+   AI & INFOTAINMENT SECTION SPECIFIC STYLES
+════════════════════════════════════════════ */
+
+.ai-section-container {
+  position: relative;
+  width: 100%;
+
+  height: 100vh;
+  min-height: 100vh;
+  margin: 0 auto;
+  background-color: #060a16;
+  color: #ffffff;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 0 100px rgba(0, 0, 0, 0.95);
+}
+
+/* Diagonal left-hand dark panel (like the image) */
+.diagonal-brand-panel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 32%;
+  height: 100%;
+  background: linear-gradient(135deg, #000000 0%, #03050b 100%);
+  clip-path: polygon(0 0, 100% 0, 76% 100%, 0 100%);
+  z-index: 10;
+  border-right: 1px solid rgba(90, 180, 232, 0.05);
+  box-shadow: 10px 0 50px rgba(0, 0, 0, 0.9);
+  pointer-events: none;
+}
+
+/* Sidebar navigation labels on left edge */
+.sidebar-brand-nav {
+  position: absolute;
+  top: 60px;
+  left: 45px;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sidebar-label-main {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: #5ab4e8;
+  opacity: 0.95;
+  text-transform: uppercase;
+}
+
+.sidebar-label-sub {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: #57a6d4;
+  opacity: 0.8;
+  text-transform: uppercase;
+  transition: opacity 0.3s, color 0.3s;
+}
+
+.sidebar-label-sub:hover {
+  opacity: 1;
+  color: #e8662a;
+}
+
+/* Seacat brand wordmark */
+.seacat-header {
+  position: absolute;
+  top: 45px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.seacat-logo-container {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+
+.logo-letter {
+  font-family: var(--font-heading);
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-shadow: 0 0 20px rgba(232, 102, 42, 0.3);
+}
+
+.letter-orange {
+  color: #e8662a;
+}
+
+.letter-chrome {
+  color: #ffffff;
+  text-shadow: 0 0 20px rgba(90, 180, 232, 0.4);
+}
+
+.seacat-logo-sub {
+  font-family: var(--font-body);
+  font-size: 9px;
+  font-weight: 400;
+  color: #94a3b8;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+/* Main backdrop video setup */
+.video-background-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 2;
+  opacity: 0.85;
+  filter: contrast(1.15) brightness(0.75) saturate(1.1);
+  pointer-events: none;
+}
+
+/* Multi-video controller drawer */
+.video-selector-badge {
+  position: absolute;
+  top: 45px;
+  right: 45px;
+  z-index: 30;
+  background: rgba(11, 18, 38, 0.7);
+  border: 1px solid rgba(90, 180, 232, 0.15);
+  backdrop-filter: blur(10px);
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  color: #5ab4e8;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+}
+
+.video-selector-badge:hover {
+  border-color: #e8662a;
+  color: #ffffff;
+  box-shadow: 0 0 15px rgba(232, 102, 42, 0.2);
+}
+
+/* Brain Canvas alignment */
+.brain-wrapper {
+  position: absolute;
+  left: 50%;
+  top: 45%;
+  transform: translate(-50%, -50%);
+  width: 580px;
+  height: 580px;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+/* Grid & Text Layer on top of everything */
+.content-grid-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 15;
+  padding: 80px 60px 40px 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  pointer-events: none; /* Let clicks pass through to drag brain */
+}
+
+.bottom-info-block {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  max-width: 100%;
+}
+
+@media (min-width: 1025px) {
+  .bottom-info-block {
+    padding-left: 31%;
+  }
+}
+
+.info-title {
+  font-family: var(--font-heading);
+  font-size: clamp(32px, 4.5vw, 54px);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: #ffffff;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  margin-bottom: 4px;
+}
+
+.info-columns-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 24px;
+  pointer-events: auto; /* enable text selection and hover */
+}
+
+.info-column {
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 1.8;
+  color: #cbd5e1;
+  font-weight: 300;
+  text-align: justify;
+}
+
+/* Accent highlight glows */
+.accent-blue-highlight {
+  color: #5ab4e8;
+  font-weight: 400;
+  border-bottom: 1px dotted rgba(90, 180, 232, 0.4);
+}
+
+.accent-orange-highlight {
+  color: #e8662a;
+  font-weight: 500;
+  background: linear-gradient(120deg, rgba(232,102,42,0.15) 0%, rgba(232,102,42,0) 100%);
+  padding: 0 4px;
+  border-radius: 2px;
+}
+
+.interactive-indicator {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 15;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  opacity: 0.6;
+  font-size: 10px;
+  font-family: var(--font-mono);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #94a3b8;
+  pointer-events: none;
+}
+
+/* Animations and Responsive adaptations */
+@media (max-width: 1024px) {
+  .diagonal-brand-panel {
+    width: 35%;
+  }
+  .info-columns-layout {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .brain-wrapper {
+    width: 440px;
+    height: 440px;
+  }
+}
+
+@media (max-width: 640px) {
+  .diagonal-brand-panel {
+    display: none; /* clear up background for small viewport */
+  }
+  .sidebar-brand-nav {
+    display: none;
+  }
+  .content-grid-overlay {
+    padding: 100px 24px 40px 24px;
+  }
+  .brain-wrapper {
+    width: 320px;
+    height: 320px;
+    top: 38%;
+  }
+  .seacat-header {
+    top: 30px;
+  }
+  .video-selector-badge {
+    top: 25px;
+    right: 20px;
+  }
+}
