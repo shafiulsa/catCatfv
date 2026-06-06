@@ -35,10 +35,10 @@ export default function BrainSection() {
       <div className="diagonal-brand-panel" id="diagonal-yacht-blade" />
 
       {/* Left Margin Brand Sidebar Navigation Links */}
-      <div className="sidebar-brand-nav" id="sidebar-yacht-meta">
+      {/* <div className="sidebar-brand-nav" id="sidebar-yacht-meta">
         <span className="sidebar-label-main">ROSSINAVI</span>
         <span className="sidebar-label-sub">BLUE EXPERIENCE</span>
-      </div>
+      </div> */}
 
       {/* 3. Center Header: Seacat Branding Logo Wordmark */}
       <header className="seacat-header" id="seacat-brandcard">
@@ -56,7 +56,7 @@ export default function BrainSection() {
       {/* 5. Lower Column Layout: AI Title and Deep Descriptions */}
       <main className="content-grid-overlay">
         <div className="bottom-info-block" id="ai-text-block">
-          
+
           <h2 className="info-title" id="ai-main-title">
             AI & INFOTAINMENT
           </h2>
