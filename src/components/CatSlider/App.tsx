@@ -138,34 +138,28 @@ export default function CatSlider() {
   return (
     <div ref={containerRef} className="relative w-full pt-3 h-screen bg-[#030303] text-white flex flex-col justify-between overflow-hidden font-sans select-none" id="main-app-container">
 
-      {/* 1. Cinematic Background Video Loop layer */}
-      <BackgroundVideo videoUrl={currentSlide.videoUrl} activeId={currentSlide.id} />
-
-      {/* 2. Vector Editorial Curved Masks & Ambient Light Grains */}
-      {/* Dynamic grain film overlay to simulate print paper or cinematic noise */}
-      <div className="absolute inset-0 pointer-events-none opacity-[0.035] mix-blend-overlay z-22">
-        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-          <filter id="noise">
-            <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" />
-          </filter>
-          <rect width="100%" height="100%" filter="url(#noise)" />
-        </svg>
+   {/* ========================================================================= */}
+      {/* 1. Cinematic Background Video & Overlay Masks (2nd Image Vibe) */}
+      {/* ========================================================================= */}
+      
+      {/* Video Layer: Full Screen Background, uninterrupted */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <BackgroundVideo videoUrl={currentSlide.videoUrl} activeId={currentSlide.id} />
       </div>
 
-      {/* Top Left Rounded Mask */}
-      <div className="absolute top-0 left-0 w-64 h-64 z-15 pointer-events-none lg:block hidden">
-        <svg viewBox="0 0 100 100" className="w-full h-full fill-[#050505]">
-          <path d="M0 0 L0 100 L100 0 Z" />
-        </svg>
-      </div>
+      {/* Diagonal Mask Left-Top: Cuts the view to make black space */}
+      <div 
+        className="absolute inset-0 z-10 bg-[#030303] pointer-events-none lg:block hidden"
+        style={{ clipPath: "polygon(0 0, 36% 0, 0 54%)" }}
+      />
 
-      {/* Bottom Right Rounded Mask */}
-      <div className="absolute bottom-0 right-0 w-64 h-64 z-15 pointer-events-none rotate-180 lg:block hidden">
-        <svg viewBox="0 0 100 100" className="w-full h-full fill-[#050505]">
-          <path d="M0 0 L100 0 C60 0 0 60 0 100 Z" />
-        </svg>
-      </div>
+      {/* Diagonal Mask Right-Bottom: Cuts the opposite view */}
+      <div 
+        className="absolute inset-0 z-10 bg-[#030303] pointer-events-none lg:block hidden"
+        style={{ clipPath: "polygon(100% 46%, 100% 100%, 64% 100%)" }}
+      />
 
+      {/* ========================================================================= */}
 
 
       {/* 3. Global Navigation Header */}
