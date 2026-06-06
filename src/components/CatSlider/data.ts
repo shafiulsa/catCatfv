@@ -14,7 +14,7 @@ export const SLIDES: SlideData[] = [
     description: "On a multi-day trip, Sea Cat is able to sail 90% of the time in pure electric mode. Navigation in hybrid mode remains active just long enough to recharge the battery. The ideal solution for exploring larger archipelagos under the crescent moon.",
     percentage: 90,
     percentageLabel: "* ELECTRIC / HYBRID",
-    videoUrl: "/Boat_running_water_flow_202606030806.webm",
+    videoUrl: "/second slider/7d869b06-5ecc-434e-a158-740ccac8f558.webm",
     accentTextColor: "text-amber-500",
     accentRingColor: "#ff5e00"
   },
@@ -26,7 +26,7 @@ export const SLIDES: SlideData[] = [
     description: "An experience in total harmony with nature. If the trip is one day, the catamaran is able to sail 100% of the time in electric mode. Silence and pristine beauty on 40 meters of premium luxury on open pristine waters.",
     percentage: 100,
     percentageLabel: "* ELECTRIC",
-    videoUrl: "/Boat_floating_on_waves_202606031059.webm",
+    videoUrl: "/second slider/447c3c7b-4872-4c43-8360-81bec2b1d7c8.webm",
     accentTextColor: "text-blue-400",
     accentRingColor: "#38bdf8"
   },
@@ -38,7 +38,7 @@ export const SLIDES: SlideData[] = [
     description: "Equipped with state-of-the-art solar roofs and high-density battery matrices, the power of nature is harvested continuously. Infinite autonomy, completely disconnected from the grid, with silent luxury.",
     percentage: 95,
     percentageLabel: "* SOLAR ECO BOOSTER",
-    videoUrl: "/Cloud_transition_to_water_202606031223.webm",
+    videoUrl: "/second slider/edecd1af-cdc6-4719-97bb-e241eb35f39a.webm",
     accentTextColor: "text-cyan-400",
     accentRingColor: "#22d3ee"
   }

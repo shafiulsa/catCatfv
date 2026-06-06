@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 
 import { SLIDES } from "./data";
-import { ConcentricCounter } from "./components/ConcentricCounter";
+// import { ConcentricCounter } from "./components/ConcentricCounter";
 import { BackgroundVideo } from "./components/BackgroundVideo";
 import { TechDrawer } from "./components/TechDrawer";
 
@@ -316,7 +316,7 @@ export default function PowerSlider() {
       <main className="flex-1 flex items-center justify-center flex-col relative z-20 pointer-events-none" id="main-center-stage">
 
         {/* Absolute center Concentric Counter */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        {/* <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           <ConcentricCounter
             percentage={currentSlide.percentage}
             label={currentSlide.label}
@@ -324,7 +324,7 @@ export default function PowerSlider() {
             activeId={currentSlide.id}
             accentColor={currentSlide.accentTextColor}
           />
-        </div>
+        </div> */}
 
         {/* Max-width container for the text panel to align left-center */}
         <div className="w-full mx-auto px-6 lg:px-12 flex-1 flex flex-col justify-center" style={{ maxWidth: '1380px' }}>
