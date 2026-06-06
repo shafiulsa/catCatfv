@@ -79,8 +79,8 @@ export const BackgroundVideo: React.FC<BackgroundVideoProps> = ({ videoUrl }) =>
     // Prepare the incoming layer: load new URL, clip it fully off-screen right
     backVideo.src = videoUrl;
     backVideo.load();
-    gsap.set(backVideo, { clipPath: "inset(0 100% 0 0)", zIndex: 2 });
-    gsap.set(frontVideo, { zIndex: 1 });
+    gsap.set(backVideo, { clipPath: "inset(0 100% 0 0)", zIndex: 2, opacity: 1 });
+    gsap.set(frontVideo, { zIndex: 1, opacity: 1 });
 
     // ── Start the wipe once the video can play ───────────────────
     const doWipe = () => {
@@ -138,6 +138,43 @@ export const BackgroundVideo: React.FC<BackgroundVideoProps> = ({ videoUrl }) =>
   }, [videoUrl]);
 
   // ─────────────────────────────────────────────────────────────
+  // Handle smooth fade to black on video loop replay
+  // ─────────────────────────────────────────────────────────────
+  const handleVideoEnded = (e: React.SyntheticEvent<HTMLVideoElement>) => {
+    const video = e.target as HTMLVideoElement;
+    
+    // Prevent concurrent trigger loops
+    if (video.dataset.isReplaying === "true") return;
+    video.dataset.isReplaying = "true";
+
+    // Fade to black smoothly
+    gsap.to(video, {
+      opacity: 0,
+      duration: 0.6,
+      ease: "power2.inOut",
+      onComplete: () => {
+        // Reset playback position
+        video.currentTime = 0;
+        video.play().then(() => {
+          // Fade back in seamlessly
+          gsap.to(video, {
+            opacity: 1,
+            duration: 0.8,
+            ease: "power2.inOut",
+            onComplete: () => {
+              video.dataset.isReplaying = "false";
+            }
+          });
+        }).catch(() => {
+          video.dataset.isReplaying = "false";
+          // Fallback if play fails
+          gsap.to(video, { opacity: 1, duration: 0.5 });
+        });
+      }
+    });
+  };
+
+  // ─────────────────────────────────────────────────────────────
   // Shared CSS for both video layers
   // ─────────────────────────────────────────────────────────────
   const sharedVideoStyle: React.CSSProperties = {
@@ -149,6 +186,7 @@ export const BackgroundVideo: React.FC<BackgroundVideoProps> = ({ videoUrl }) =>
     transform: "scale(1.02)",
     filter: "brightness(0.7) contrast(1.05) saturate(0.95)",
     pointerEvents: "none",
+    opacity: 1,
   };
 
   return (
@@ -162,7 +200,7 @@ export const BackgroundVideo: React.FC<BackgroundVideoProps> = ({ videoUrl }) =>
         style={sharedVideoStyle}
         muted
         playsInline
-        loop
+        onEnded={handleVideoEnded}
         id="bg-video-layer-a"
       />
 
@@ -172,7 +210,7 @@ export const BackgroundVideo: React.FC<BackgroundVideoProps> = ({ videoUrl }) =>
         style={sharedVideoStyle}
         muted
         playsInline
-        loop
+        onEnded={handleVideoEnded}
         id="bg-video-layer-b"
       />
 

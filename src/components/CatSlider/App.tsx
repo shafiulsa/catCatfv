@@ -124,7 +124,82 @@ export default function CatSlider() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [activeIndex, drawerOpen, isScrolling]);
 
-  // Scroll slide transitions disabled as requested.
+  // Scroll wheel navigation
+  useEffect(() => {
+    const handleWheel = (e: WheelEvent) => {
+      if (drawerOpen || isScrolling) return;
+
+      const now = Date.now();
+      if (now - lastWheelTime.current < 1200) return; // Debounce wheel events matches transition time
+
+      if (Math.abs(e.deltaY) > 30 || Math.abs(e.deltaX) > 30) {
+        lastWheelTime.current = now;
+        if (e.deltaY > 0 || e.deltaX > 0) {
+          const nextIdx = (activeIndex + 1) % SLIDES.length;
+          handleSlideChange(nextIdx);
+        } else {
+          const prevIdx = (activeIndex - 1 + SLIDES.length) % SLIDES.length;
+          handleSlideChange(prevIdx);
+        }
+      }
+    };
+
+    window.addEventListener("wheel", handleWheel, { passive: true });
+    return () => window.removeEventListener("wheel", handleWheel);
+  }, [activeIndex, drawerOpen, isScrolling]);
+
+  // Mouse/Touch Drag Interactions
+  const minSwipeDistance = 50;
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+  const [isDragging, setIsDragging] = useState<boolean>(false);
+
+  const onTouchStart = (e: React.TouchEvent | React.MouseEvent) => {
+    if (drawerOpen) return;
+    setTouchEnd(null);
+    setIsDragging(true);
+    if ('targetTouches' in e) {
+      setTouchStart(e.targetTouches[0].clientX);
+    } else {
+      setTouchStart((e as React.MouseEvent).clientX);
+    }
+  };
+
+  const onTouchMove = (e: React.TouchEvent | React.MouseEvent) => {
+    if (!isDragging || drawerOpen) return;
+    if ('targetTouches' in e) {
+      setTouchEnd(e.targetTouches[0].clientX);
+    } else {
+      setTouchEnd((e as React.MouseEvent).clientX);
+    }
+  };
+
+  const onTouchEnd = () => {
+    if (!isDragging || drawerOpen) return;
+    setIsDragging(false);
+    if (!touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe) {
+      const nextIdx = (activeIndex + 1) % SLIDES.length;
+      handleSlideChange(nextIdx);
+    } else if (isRightSwipe) {
+      const prevIdx = (activeIndex - 1 + SLIDES.length) % SLIDES.length;
+      handleSlideChange(prevIdx);
+    }
+    
+    setTouchStart(null);
+    setTouchEnd(null);
+  };
+
+  const onMouseLeave = () => {
+    if (isDragging) {
+      onTouchEnd();
+    }
+  };
 
   // Trigger audio adjustments when mute status is changed
   const handleToggleSound = () => {
@@ -136,7 +211,18 @@ export default function CatSlider() {
   };
 
   return (
-    <div ref={containerRef} className="relative w-full pt-3 h-screen bg-[#030303] text-white flex flex-col justify-between overflow-hidden font-sans select-none" id="main-app-container">
+    <div 
+      ref={containerRef} 
+      className="relative w-full pt-3 h-screen bg-[#030303] text-white flex flex-col justify-between overflow-hidden font-sans select-none cursor-grab active:cursor-grabbing" 
+      id="main-app-container"
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
+      onMouseDown={onTouchStart}
+      onMouseMove={onTouchMove}
+      onMouseUp={onTouchEnd}
+      onMouseLeave={onMouseLeave}
+    >
 
    {/* ========================================================================= */}
       {/* 1. Cinematic Background Video & Overlay Masks (2nd Image Vibe) */}
@@ -247,19 +333,23 @@ export default function CatSlider() {
 
             {/* Horizontal indicators placed above text */}
             <div
-              className="flex items-center pb-3 justify-start gap-3 pb-5 pointer-events-auto"
+              className="flex items-center justify-start gap-3 pb-5 pointer-events-auto"
               id="slider-horizontal-progress-nav"
             >
               {SLIDES.map((slide, idx) => (
                 <button
                   key={slide.id}
                   onClick={() => handleSlideChange(idx)}
-                  className="group relative py-2 focus:outline-none cursor-pointer"
+                  className="group relative py-4 px-2 focus:outline-none cursor-pointer"
                   aria-label={`Go to slide ${slide.label}`}
                   id={`nav-line-button-${slide.id}`}
+                  onMouseDown={(e) => e.stopPropagation()} /* Prevent dragging when clicking indicators */
+                  onTouchStart={(e) => e.stopPropagation()}
                 >
+                  {/* Large invisible hitbox overlay that doesn't affect document flow */}
+                  <span className="absolute -inset-3 md:-inset-4 z-0"></span>
                   <div
-                    className={`h-[1.5px] rounded-full transition-all duration-500 ${activeIndex === idx
+                    className={`h-[1.5px] rounded-full transition-all duration-500 relative z-10 ${activeIndex === idx
                         ? "w-11 bg-white opacity-100"
                         : "w-6 bg-white/30 group-hover:bg-white/60 opacity-60"
                       }`}

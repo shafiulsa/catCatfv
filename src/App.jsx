@@ -10,14 +10,15 @@ export default function App() {
 
   return (
     <>
-      <ScrollVideoHero onCompleteStatusChange={setHeroComplete} />
+      {/* <ScrollVideoHero onCompleteStatusChange={setHeroComplete} />
       <div style={{ display: heroComplete ? 'block' : 'none' }}>
         <CatSlider />
         <GravitySliderSection />
       <AiInfotainment/>
-      </div>
-      {/* <CatSlider/>
-      <GravitySliderSection/> */}
+      </div> */}
+      <CatSlider/>
+      <GravitySliderSection/>
+      <AiInfotainment/>
     </>
   );
 }
