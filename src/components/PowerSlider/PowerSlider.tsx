@@ -233,17 +233,18 @@ export default function PowerSlider() {
         <BackgroundVideo videoUrl={currentSlide.videoUrl} activeId={currentSlide.id} />
       </div>
 
-      {/* Diagonal Mask Left-Top: Cuts the view to make black space */}
-      <div 
-        className="absolute inset-0 z-10 bg-[#030303] pointer-events-none lg:block hidden"
-        style={{ clipPath: "polygon(0 0, 36% 0, 0 54%)" }}
-      />
-
-      {/* Diagonal Mask Right-Bottom: Cuts the opposite view */}
-      <div 
-        className="absolute inset-0 z-10 bg-[#030303] pointer-events-none lg:block hidden"
-        style={{ clipPath: "polygon(100% 46%, 100% 100%, 64% 100%)" }}
-      />
+{/* Top Right */}
+<div
+  className="absolute top-0 right-0 w-[36vw] h-[54vh] bg-[#030303] z-10 pointer-events-none hidden lg:block"
+  style={{
+    clipPath: "polygon(100% 0, 0 0, 100% 100%)"
+  }}
+/>
+{/* Bottom Left */}
+<div
+  className="absolute inset-0 z-10 bg-[#030303] pointer-events-none lg:block hidden"
+  style={{ clipPath: "polygon(0 46%, 0 100%, 36% 100%)" }}
+/>
 
       {/* ========================================================================= */}
 
